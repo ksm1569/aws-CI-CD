@@ -6,6 +6,7 @@ import com.smsoft.aws.springboot.web.dto.PostsListResponseDto;
 import com.smsoft.aws.springboot.web.dto.PostsResponseDto;
 import com.smsoft.aws.springboot.web.dto.PostsSaveRequestDto;
 import com.smsoft.aws.springboot.web.dto.PostsUpdateRequestDto;
+import javafx.geometry.Pos;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +44,11 @@ public class PostsService {
         return postsRepository.findAllDesc().stream()
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not post id = " + id));
+        postsRepository.delete(posts);
     }
 }
